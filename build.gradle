@@ -5,7 +5,7 @@ plugins {
     id 'org.spongepowered.mixin' version '0.7.+'
 }
 
-version = '1.0.0c'
+version = '1.0.0d'
 group = 'qikahome.anvil_musbox'
 base.archivesName = 'Anvil-MusBox-Forge-1.20.1'
 

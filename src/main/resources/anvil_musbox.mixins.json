@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "qikahome.anvil_musbox.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "refmap": "anvil_musbox.refmap.json",
+  "mixins": [
+    "NoteBlockMixin",
+    "NoteBlockProviderMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

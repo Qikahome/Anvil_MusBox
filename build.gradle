@@ -7,7 +7,7 @@ plugins {
 
 version = '1.0.0b'
 group = 'qikahome.anvil_musbox'
-base.archivesName = 'Anvil_MusBox'
+baseArchivesName = 'Anvil-MusBox-Forge-1.20.1'
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 

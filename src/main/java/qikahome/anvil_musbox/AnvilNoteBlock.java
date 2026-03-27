@@ -28,7 +28,7 @@ public class AnvilNoteBlock extends NoteBlock {
             int note = state.getValue(NOTE);
             float pitch = (float) Math.pow(2.0, (note - 12) / 12.0);
 
-            level.playSound(null, pos, SoundEvents.ANVIL_PLACE, SoundSource.BLOCKS, 1.0F, pitch);
+            level.playSound(null, pos, SoundEvents.ANVIL_PLACE, SoundSource.RECORDS, 1.0F, pitch);
             level.gameEvent(entity, GameEvent.NOTE_BLOCK_PLAY, pos);
         }
     }

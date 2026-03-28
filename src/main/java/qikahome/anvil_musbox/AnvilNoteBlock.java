@@ -3,6 +3,7 @@ package qikahome.anvil_musbox;
 import javax.annotation.Nullable;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.sounds.SoundEvents;
@@ -25,12 +26,23 @@ public class AnvilNoteBlock extends NoteBlock {
     @Override
     protected void playNote(@Nullable Entity entity, BlockState state, Level level, BlockPos pos) {
         if (level.getBlockState(pos.above()).isAir()) {
-            int note = state.getValue(NOTE);
-            float pitch = (float) Math.pow(2.0, (note - 12) / 12.0);
-
-            level.playSound(null, pos, SoundEvents.ANVIL_PLACE, SoundSource.RECORDS, 1.0F, pitch);
+            level.blockEvent(pos, this, 0, 0);
             level.gameEvent(entity, GameEvent.NOTE_BLOCK_PLAY, pos);
         }
+    }
+
+    @Override
+    public boolean triggerEvent(BlockState state, Level level, BlockPos pos, int id, int data) {
+        int note = state.getValue(NOTE);
+        float pitch = (float) Math.pow(2.0, (note - 12) / 12.0);
+        
+        // Add note particles
+        level.addParticle(ParticleTypes.NOTE, pos.getX() + 0.5D, pos.getY() + 1.2D, pos.getZ() + 0.5D, note / 24.0D, 0.0D, 0.0D);
+        
+        // Play anvil sound
+        level.playSound(null, pos, SoundEvents.ANVIL_PLACE, SoundSource.RECORDS, 1.0F, pitch);
+        
+        return true;
     }
 
     @Override

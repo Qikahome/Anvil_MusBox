@@ -12,6 +12,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import qikahome.anvil_musbox.AnvilMusBoxMod;
+import qikahome.anvil_musbox.block.ExtendNoteBlock;
 
 @Mixin(NoteBlock.class)
 public class NoteBlockMixin {
@@ -25,16 +26,16 @@ public class NoteBlockMixin {
         }
         BlockState belowState = level.getBlockState(pos.below());
 
-        // 判断下方方块是否在 minecraft:anvil 标签中
-        if (belowState.is(AnvilMusBoxMod.ANVILS_TAG)) {
-            // 如果是铁砧类方块，返回 AnvilNoteBlock 的 BlockState，保留原始属性
-            int note = state.getValue(NoteBlock.NOTE);
-            boolean powered = state.getValue(NoteBlock.POWERED);
-            BlockState anvilNoteState = AnvilMusBoxMod.ANVIL_NOTE_BLOCK.get().defaultBlockState()
-                    .setValue(NoteBlock.NOTE, note)
-                    .setValue(NoteBlock.POWERED, powered);
-            cir.setReturnValue(anvilNoteState);
-            cir.cancel();
+        for (ExtendNoteBlock extend : AnvilMusBoxMod.INSTRUMENTS) {
+            if (extend.blockMatches(belowState)) {
+                int note = state.getValue(NoteBlock.NOTE);
+                boolean powered = state.getValue(NoteBlock.POWERED);
+                BlockState anvilNoteState = AnvilMusBoxMod.ANVIL_NOTE_BLOCK.get().defaultBlockState()
+                        .setValue(NoteBlock.NOTE, note)
+                        .setValue(NoteBlock.POWERED, powered);
+                cir.setReturnValue(anvilNoteState);
+                cir.cancel();
+            }
         }
     }
 }

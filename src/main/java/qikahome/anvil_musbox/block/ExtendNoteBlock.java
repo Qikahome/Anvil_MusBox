@@ -1,6 +1,8 @@
-package qikahome.anvil_musbox;
+package qikahome.anvil_musbox.block;
 
 import javax.annotation.Nullable;
+
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -18,8 +20,8 @@ import net.minecraft.world.level.block.NoteBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 
-public class AnvilNoteBlock extends NoteBlock {
-    public AnvilNoteBlock(Properties properties) {
+public abstract class ExtendNoteBlock extends NoteBlock {
+    public ExtendNoteBlock(Properties properties) {
         super(properties);
     }
 
@@ -39,8 +41,8 @@ public class AnvilNoteBlock extends NoteBlock {
         // Add note particles
         level.addParticle(ParticleTypes.NOTE, pos.getX() + 0.5D, pos.getY() + 1.2D, pos.getZ() + 0.5D, note / 24.0D, 0.0D, 0.0D);
         
-        // Play anvil sound
-        level.playSound(null, pos, SoundEvents.ANVIL_PLACE, SoundSource.RECORDS, 1.0F, pitch);
+        // Play custom sound
+        playSound(level, pos, pitch);
         
         return true;
     }
@@ -64,4 +66,23 @@ public class AnvilNoteBlock extends NoteBlock {
         return Component.translatableWithFallback(super.getDescriptionId(),
                 "{\"translate\":\"block.minecraft.note_block\"}");
     }
+
+    /**
+     * Play custom sound
+     * @param pos The position of the note block
+     * @param pitch The pitch of the note
+     */
+    abstract protected void playSound(@NonNull Level level, @NonNull BlockPos pos, float pitch);
+    /**
+     * Check if the block matches the instrument
+     * @param below The block below the note block
+     * @return True if the block matches the instrument, False otherwise
+     */
+    abstract public Boolean blockMatches(@NonNull BlockState below);
+    /**
+     * Get the name of the instrument
+     * @return The name of the instrument
+     */
+    @NonNull
+    abstract public String getInstrumentName();
 }

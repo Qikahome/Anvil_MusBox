@@ -5,7 +5,7 @@ plugins {
     id 'org.spongepowered.mixin' version '0.7.+'
 }
 
-version = '1.0.0e'
+version = '1.1.0'
 group = 'qikahome.anvil_musbox'
 base.archivesName = 'Anvil-MusBox-Forge-1.20.1'
 
@@ -106,7 +106,7 @@ dependencies {
     // Jade - optional dependency for block info display
     // CurseForge: https://www.curseforge.com/minecraft/mc-mods/jade/download/6855440
     compileOnly fg.deobf("curse.maven:jade-324717:6855440")
-    // runtimeOnly fg.deobf("curse.maven:jade-324717:6855440") // Commented out for testing without Jade
+    runtimeOnly fg.deobf("curse.maven:jade-324717:6855440")
 }
 
 mixin {

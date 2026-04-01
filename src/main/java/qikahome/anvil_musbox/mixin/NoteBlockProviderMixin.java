@@ -1,7 +1,9 @@
 package qikahome.anvil_musbox.mixin;
 
 import net.minecraft.world.level.block.state.BlockState;
-import qikahome.anvil_musbox.AnvilNoteBlock;
+import qikahome.anvil_musbox.block.AnvilNoteBlock;
+import qikahome.anvil_musbox.block.ExtendNoteBlock;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
@@ -21,8 +23,8 @@ public class NoteBlockProviderMixin {
     )
     public String modifyKey(String key, ITooltip tooltip, BlockAccessor accessor, IPluginConfig config) {
         BlockState state = accessor.getBlockState();
-        if (state.getBlock() instanceof AnvilNoteBlock) {
-            return "block.minecraft.anvil";
+        if (state.getBlock() instanceof ExtendNoteBlock extend) {
+            return extend.getInstrumentName();
         }
         return key;
     }

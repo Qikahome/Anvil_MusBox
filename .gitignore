@@ -34,3 +34,6 @@ Thumbs.db
 *.jar
 *.war
 *.ear
+
+# Maven local repository
+mcmodsrepo/

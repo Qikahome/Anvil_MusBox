@@ -30,7 +30,7 @@ public class NoteBlockMixin {
             if (extend.blockMatches(belowState)) {
                 int note = state.getValue(NoteBlock.NOTE);
                 boolean powered = state.getValue(NoteBlock.POWERED);
-                BlockState anvilNoteState = AnvilMusBoxMod.ANVIL_NOTE_BLOCK.get().defaultBlockState()
+                BlockState anvilNoteState = extend.defaultBlockState()
                         .setValue(NoteBlock.NOTE, note)
                         .setValue(NoteBlock.POWERED, powered);
                 cir.setReturnValue(anvilNoteState);

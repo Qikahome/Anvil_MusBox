@@ -15,7 +15,8 @@ public class AnvilNoteBlock extends ExtendNoteBlock {
         super(properties);
     }
 
-    public static final TagKey<Block> ANVILS_TAG = TagKey.create(Registries.BLOCK, new ResourceLocation("minecraft", "anvil"));
+    public static final TagKey<Block> ANVILS_TAG = TagKey.create(Registries.BLOCK,
+            ResourceLocation.fromNamespaceAndPath("minecraft", "anvil"));
 
     @Override
     protected void playSound(Level level, BlockPos pos, float pitch) {

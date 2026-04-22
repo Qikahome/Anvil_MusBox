@@ -17,7 +17,7 @@ import qikahome.anvil_musbox.block.ExtendNoteBlock;
 @Mixin(NoteBlock.class)
 public class NoteBlockMixin {
 
-    @Inject(method = "setInstrument", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "setInstrument", at = @At("HEAD"), cancellable = true, remap=true)
     private void onSetInstrument(LevelAccessor level, BlockPos pos, BlockState state,
             CallbackInfoReturnable<BlockState> cir) {
         NoteBlockInstrument noteblockinstrument = level.getBlockState(pos.above()).instrument();

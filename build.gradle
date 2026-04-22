@@ -1,88 +1,37 @@
 plugins {
     id 'eclipse'
     id 'maven-publish'
-    id 'net.minecraftforge.gradle' version '[6.0.24,6.2)'
-    id 'org.spongepowered.mixin' version '0.7.+'
+    id 'net.neoforged.moddev' version '2.0.88'
 }
 
 version = '1.1.2'
 group = 'qikahome.anvil_musbox'
-base.archivesName = 'Anvil-MusBox-Forge-1.20.1'
+base.archivesName = 'Anvil-MusBox-NeoForge-1.21.1'
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 
 println "Java: ${System.getProperty 'java.version'}, JVM: ${System.getProperty 'java.vm.version'} (${System.getProperty 'java.vendor'}), Arch: ${System.getProperty 'os.arch'}"
-minecraft {
-    mappings channel: 'official', version: '1.20.1'
 
-    copyIdeResources = true
-
-    accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
+neoForge {
+    version = '21.1.77'
     
     runs {
         client {
-            workingDirectory project.file('run')
-
-            property 'forge.logging.markers', 'REGISTRIES'
-            property 'forge.logging.console.level', 'debug'
-            property 'forge.enabledGameTestNamespaces', 'anvil_musbox'
-            property 'mixin.env.remapRefMap', 'true'
-            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
-
-            mods {
-                anvil_musbox {
-                    source sourceSets.main
-                }
-            }
+            client()
         }
-
+        
         server {
-            workingDirectory project.file('run')
-
-            property 'forge.logging.markers', 'REGISTRIES'
-            property 'forge.logging.console.level', 'debug'
-            property 'forge.enabledGameTestNamespaces', 'anvil_musbox'
-            property 'mixin.env.remapRefMap', 'true'
-            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
-
-            mods {
-                anvil_musbox {
-                    source sourceSets.main
-                }
-            }
+            server()
         }
-
-        gameTestServer {
-            workingDirectory project.file('run')
-
-            property 'forge.logging.markers', 'REGISTRIES'
-            property 'forge.logging.console.level', 'debug'
-            property 'forge.enabledGameTestNamespaces', 'anvil_musbox'
-            property 'mixin.env.remapRefMap', 'true'
-            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
-
-            mods {
-                anvil_musbox {
-                    source sourceSets.main
-                }
-            }
-        }
-
+        
         data {
-            workingDirectory project.file('run')
-
-            property 'forge.logging.markers', 'REGISTRIES'
-            property 'forge.logging.console.level', 'debug'
-            property 'mixin.env.remapRefMap', 'true'
-            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
-
-            args '--mod', 'anvil_musbox', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
-
-            mods {
-                anvil_musbox {
-                    source sourceSets.main
-                }
-            }
+            data()
+        }
+    }
+    
+    mods {
+        anvil_musbox {
+            sourceSet sourceSets.main
         }
     }
 }
@@ -100,31 +49,20 @@ repositories {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.20.1-47.4.0'
-    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
-    
-    // Jade - optional dependency for block info display
-    // CurseForge: https://www.curseforge.com/minecraft/mc-mods/jade/download/6855440
-    compileOnly fg.deobf("curse.maven:jade-324717:6855440")
-    runtimeOnly fg.deobf("curse.maven:jade-324717:6855440")
-}
-
-mixin {
-    add sourceSets.main, "anvil_musbox.refmap.json"
-    config "anvil_musbox.mixins.json"
+    implementation 'curse.maven:jade-324717:6198776'
 }
 
 tasks.named('processResources', ProcessResources).configure {
     var replaceProperties = [
-            minecraft_version: '1.20.1', minecraft_version_range: '[1.20.1,1.20.2)',
-            forge_version: '47.4.0', forge_version_range: '[47.4.0,)',
-            loader_version_range: '[47,)',
+            minecraft_version: '1.21.1', minecraft_version_range: '[1.21.1,1.21.2)',
+            neoforge_version: '21.1.77', neoforge_version_range: '[21.1.77,)',
+            loader_version_range: '[4,)',
             mod_id: 'anvil_musbox', mod_name: 'Anvil MusBox', mod_license: 'MIT', mod_version: "${version}",
             mod_authors: 'Qikahome', mod_description: 'Adds Anvil Note Blocks - note blocks that produce anvil sounds when placed on anvils. Supports Jade for instrument display.'
     ]
     inputs.properties replaceProperties
 
-    filesMatching(['META-INF/mods.toml', 'pack.mcmeta']) {
+    filesMatching(['META-INF/neoforge.mods.toml', 'pack.mcmeta']) {
         expand replaceProperties + [project: project]
     }
 }
@@ -141,7 +79,6 @@ tasks.named('jar', Jar).configure {
                 'Implementation-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])
     }
-    finalizedBy 'reobfJar'
 }
 
 publishing {

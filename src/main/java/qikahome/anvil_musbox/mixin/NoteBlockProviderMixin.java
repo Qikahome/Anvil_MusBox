@@ -1,7 +1,6 @@
 package qikahome.anvil_musbox.mixin;
 
 import net.minecraft.world.level.block.state.BlockState;
-import qikahome.anvil_musbox.block.AnvilNoteBlock;
 import qikahome.anvil_musbox.block.ExtendNoteBlock;
 
 import org.spongepowered.asm.mixin.Mixin;

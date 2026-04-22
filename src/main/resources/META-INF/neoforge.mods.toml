@@ -1,7 +1,9 @@
 modLoader="javafml"
 loaderVersion="${loader_version_range}"
 license="${mod_license}"
-mixinConfigs="anvil_musbox.mixins.json"
+
+[[mixins]]
+config="anvil_musbox.mixins.json"
 
 [[mods]]
 modId="${mod_id}"
@@ -13,9 +15,9 @@ description='''${mod_description}'''
 side = "BOTH"
 
 [[dependencies.${mod_id}]]
-    modId="forge"
+    modId="neoforge"
     mandatory=true
-    versionRange="${forge_version_range}"
+    versionRange="${neoforge_version_range}"
     ordering="NONE"
     side="BOTH"
 
@@ -29,6 +31,6 @@ side = "BOTH"
 [[dependencies.${mod_id}]]
     modId="jade"
     mandatory=false
-    versionRange="[4.3.2,)"
+    versionRange="[15.9.4,)"
     ordering="NONE"
     side="BOTH"

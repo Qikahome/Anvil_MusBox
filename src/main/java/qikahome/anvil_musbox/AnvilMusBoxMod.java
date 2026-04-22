@@ -7,14 +7,13 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.ModLoadingContext;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredRegister;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,20 +28,17 @@ public class AnvilMusBoxMod {
     public static final String MOD_ID = "anvil_musbox";
     private static final Logger LOGGER = LogUtils.getLogger();
 
-    public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, MOD_ID);
+    public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(Registries.BLOCK, MOD_ID);
 
-    public static final RegistryObject<Block> ANVIL_NOTE_BLOCK = BLOCKS.register("anvil_note_block",
-            () -> new AnvilNoteBlock(BlockBehaviour.Properties.copy(Blocks.NOTE_BLOCK)));
+    public static final DeferredHolder<Block, Block> ANVIL_NOTE_BLOCK = BLOCKS.register("anvil_note_block",
+            () -> new AnvilNoteBlock(BlockBehaviour.Properties.ofLegacyCopy(Blocks.NOTE_BLOCK)));
     
     public static final List<ExtendNoteBlock> INSTRUMENTS = new ArrayList<>();
     
     public AnvilMusBoxMod() {
-        IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+        IEventBus modEventBus = ModLoadingContext.get().getActiveContainer().getEventBus();
         BLOCKS.register(modEventBus);
         modEventBus.addListener(this::commonSetup);
-        MinecraftForge.EVENT_BUS.register(this);
-
-        
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {

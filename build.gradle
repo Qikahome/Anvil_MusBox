@@ -6,14 +6,14 @@ plugins {
 
 version = '1.1.2'
 group = 'qikahome.anvil_musbox'
-base.archivesName = 'Anvil-MusBox-NeoForge-1.21.3'
+base.archivesName = 'Anvil-MusBox-NeoForge-1.21.5'
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 
 println "Java: ${System.getProperty 'java.version'}, JVM: ${System.getProperty 'java.vm.version'} (${System.getProperty 'java.vendor'}), Arch: ${System.getProperty 'os.arch'}"
 
 neoForge {
-    version = '21.3.96'
+    version = '21.5.97'
     
     runs {
         client {
@@ -49,13 +49,13 @@ repositories {
 }
 
 dependencies {
-    implementation 'curse.maven:jade-324717:5846076'
+    implementation 'curse.maven:jade-324717:6524708'
 }
 
 tasks.named('processResources', ProcessResources).configure {
     var replaceProperties = [
-            minecraft_version: '1.21.3', minecraft_version_range: '[1.21.2,1.21.4]',
-            neoforge_version: '21.3.96', neoforge_version_range: '[21.2.0,)',
+            minecraft_version: '1.21.5', minecraft_version_range: '[1.21.5,1.21.10]',
+            neoforge_version: '21.5.97', neoforge_version_range: '[21.5.0,)',
             loader_version_range: '[4,)',
             mod_id: 'anvil_musbox', mod_name: 'Anvil MusBox', mod_license: 'MIT', mod_version: "${version}",
             mod_authors: 'Qikahome', mod_description: 'Adds Anvil Note Blocks - note blocks that produce anvil sounds when placed on anvils. Supports Jade for instrument display.'

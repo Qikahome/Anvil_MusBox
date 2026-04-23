@@ -9,7 +9,7 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Blocks;
@@ -55,8 +55,8 @@ public abstract class ExtendNoteBlock extends NoteBlock {
     }
 
     @Override
-    public ItemStack getCloneItemStack(LevelReader p_304395_, BlockPos p_49824_, BlockState p_49825_) {
-        return new ItemStack(Blocks.NOTE_BLOCK);
+    public Item asItem() {
+        return Blocks.NOTE_BLOCK.asItem();
     }
 
     @Override

@@ -8,13 +8,9 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.NoteBlock;
@@ -38,18 +34,19 @@ public abstract class ExtendNoteBlock extends NoteBlock {
     public boolean triggerEvent(BlockState state, Level level, BlockPos pos, int id, int data) {
         int note = state.getValue(NOTE);
         float pitch = (float) Math.pow(2.0, (note - 12) / 12.0);
-        
+
         // Add note particles
-        level.addParticle(ParticleTypes.NOTE, pos.getX() + 0.5D, pos.getY() + 1.2D, pos.getZ() + 0.5D, note / 24.0D, 0.0D, 0.0D);
-        
+        level.addParticle(ParticleTypes.NOTE, pos.getX() + 0.5D, pos.getY() + 1.2D, pos.getZ() + 0.5D, note / 24.0D,
+                0.0D, 0.0D);
+
         // Play custom sound
         playSound(level, pos, pitch);
-        
+
         return true;
     }
 
     @Override
-    public BlockState setInstrument(LevelAccessor level, BlockPos pos, BlockState state) {
+    public BlockState setInstrument(LevelReader level, BlockPos pos, BlockState state) {
         int note = state.getValue(NoteBlock.NOTE);
         boolean powered = state.getValue(NoteBlock.POWERED);
         BlockState newState = Blocks.NOTE_BLOCK.defaultBlockState().setValue(NoteBlock.NOTE, note)
@@ -70,18 +67,23 @@ public abstract class ExtendNoteBlock extends NoteBlock {
 
     /**
      * Play custom sound
-     * @param pos The position of the note block
+     * 
+     * @param pos   The position of the note block
      * @param pitch The pitch of the note
      */
     abstract protected void playSound(@NonNull Level level, @NonNull BlockPos pos, float pitch);
+
     /**
      * Check if the block matches the instrument
+     * 
      * @param below The block below the note block
      * @return True if the block matches the instrument, False otherwise
      */
     abstract public Boolean blockMatches(@NonNull BlockState below);
+
     /**
      * Get the name of the instrument
+     * 
      * @return The name of the instrument
      */
     @NonNull

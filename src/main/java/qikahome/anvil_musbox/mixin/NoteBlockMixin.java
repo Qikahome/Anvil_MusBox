@@ -1,7 +1,7 @@
 package qikahome.anvil_musbox.mixin;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.NoteBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
@@ -18,7 +18,7 @@ import qikahome.anvil_musbox.block.ExtendNoteBlock;
 public class NoteBlockMixin {
 
     @Inject(method = "setInstrument", at = @At("HEAD"), cancellable = true, remap=true)
-    private void onSetInstrument(LevelAccessor level, BlockPos pos, BlockState state,
+    private void onSetInstrument(LevelReader level, BlockPos pos, BlockState state,
             CallbackInfoReturnable<BlockState> cir) {
         NoteBlockInstrument noteblockinstrument = level.getBlockState(pos.above()).instrument();
         if (noteblockinstrument.worksAboveNoteBlock()) {
